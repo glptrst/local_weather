@@ -1,17 +1,16 @@
-//TODO
-//find some better icons!!!
-
 function displayWeather () {
     var weatherObj = JSON.parse(this.responseText);
     var temperatureC = weatherObj.current_observation.temp_c;
     var temperatureF = weatherObj.current_observation.temp_f;
     var weather = weatherObj.current_observation.weather;
-    var icon = weatherObj.current_observation.icon_url;
+    var icon = weatherObj.current_observation.icon;
     var location = weatherObj.current_observation.display_location.full;
 
     //show icon
-    var iconImgTag = document.getElementById("weatherImg");
-    iconImgTag.setAttribute("src", icon);
+    var iconNode = document.getElementsByTagName("i")[0];
+    iconNode.setAttribute("class", "wu wu-black wu-128 wu-" + icon); 
+    //*************
+
     //show weather
     var weatherDiv = document.getElementById("weather");
     var weatherText = document.createTextNode(weather);
@@ -36,7 +35,7 @@ function displayWeather () {
     });
 }
 
-// Send XMLHttprequest to openweathermap.org to get local weather
+// Send XMLHttprequest to weather undergrond to get local weather
 function getWeather() {
     var lat = (JSON.parse(this.responseText).latitude);
     var lon = (JSON.parse(this.responseText).longitude);
