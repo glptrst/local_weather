@@ -1,38 +1,41 @@
+function makeButtonToggle(button, text1, text2) {
+    button.firstChild.addEventListener("click", function(){
+        if (button.firstChild.firstChild === text1)
+        button.firstChild.replaceChild(text2, text1);
+        else {
+        button.firstChild.replaceChild(text1, text2);
+        }
+    });
+}
+
 function displayWeather () {
     var weatherObj = JSON.parse(this.responseText);
     var temperatureC = weatherObj.current_observation.temp_c;
     var temperatureF = weatherObj.current_observation.temp_f;
     var weather = weatherObj.current_observation.weather;
     var icon = weatherObj.current_observation.icon;
-    var location = weatherObj.current_observation.display_location.full;
+    var user_location = weatherObj.current_observation.display_location.full;
 
-    //show icon
+    //display icon
     var iconNode = document.getElementsByTagName("i")[0];
     iconNode.setAttribute("class", "wu wu-black wu-128 wu-" + icon); 
-    //*************
 
-    //show weather
+    //display weather
     var weatherDiv = document.getElementById("weather");
     var weatherText = document.createTextNode(weather);
     weatherDiv.appendChild(weatherText);
-    //show temperature
+    //display temperature
     var tempDiv = document.getElementById("temperature");
     var tempTextC = document.createTextNode(temperatureC + " C");
     var tempTextF = document.createTextNode(temperatureF + " F");
     tempDiv.firstChild.appendChild(tempTextC);
-    //show location
+    //display location
     var locationDiv = document.getElementById("location");
-    var locationText = document.createTextNode(location);
+    var locationText = document.createTextNode(user_location);
     locationDiv.appendChild(locationText);
 
-    //toggle temperature if clicked
-    tempDiv.firstChild.addEventListener("click", function(){
-        if (tempDiv.firstChild.firstChild === tempTextC)
-        tempDiv.firstChild.replaceChild(tempTextF, tempTextC);
-        else {
-        tempDiv.firstChild.replaceChild(tempTextC, tempTextF);
-        }
-    });
+    //make temperature button toggle if clicked
+    makeButtonToggle(tempDiv, tempTextC, tempTextF);
 }
 
 // Send XMLHttprequest to weather undergrond to get local weather
