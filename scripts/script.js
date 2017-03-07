@@ -1,13 +1,3 @@
-function makeButtonToggle(button, text1, text2) {
-    button.firstChild.addEventListener("click", function(){
-        if (button.firstChild.firstChild === text1)
-        button.firstChild.replaceChild(text2, text1);
-        else {
-        button.firstChild.replaceChild(text1, text2);
-        }
-    });
-}
-
 function displayWeather () {
     var weatherObj = JSON.parse(this.responseText);
     var temperatureC = weatherObj.current_observation.temp_c;
@@ -17,28 +7,36 @@ function displayWeather () {
     var user_location = weatherObj.current_observation.display_location.full;
 
     //display icon
+    //https://github.com/manifestinteractive/weather-underground-icons
     var iconNode = document.getElementsByTagName("i")[0];
-    iconNode.setAttribute("class", "wu wu-black wu-128 wu-" + icon); 
+    iconNode.setAttribute("class", "wu wu-white wu-256 wu-" + icon); 
 
     //display weather
     var weatherDiv = document.getElementById("weather");
     var weatherText = document.createTextNode(weather);
     weatherDiv.appendChild(weatherText);
     //display temperature
-    var tempDiv = document.getElementById("temperature");
-    var tempTextC = document.createTextNode(temperatureC + " C");
-    var tempTextF = document.createTextNode(temperatureF + " F");
-    tempDiv.firstChild.appendChild(tempTextC);
+    var celsius = document.createElement("span");
+    celsius.innerHTML = temperatureC.toString() + "&#x2103;"; 
+    var fahrenheit = document.createElement("span");
+    fahrenheit.innerHTML = temperatureF.toString() + "&#x2109;"; 
+    var temp_text = document.getElementById("temp_text");
+    temp_text.appendChild(celsius);
+    //make temperature toggle between celsius and fahrenheit
+    celsius.addEventListener("click", function(){
+        temp_text.replaceChild(fahrenheit, celsius);
+    });
+    fahrenheit.addEventListener("click", function(){
+        temp_text.replaceChild(celsius, fahrenheit);
+    });
+
     //display location
     var locationDiv = document.getElementById("location");
     var locationText = document.createTextNode(user_location);
     locationDiv.appendChild(locationText);
-
-    //make temperature button toggle if clicked
-    makeButtonToggle(tempDiv, tempTextC, tempTextF);
 }
 
-// Send XMLHttprequest to weather undergrond to get local weather
+// Send XMLHttprequest to weather underground to get local weather
 function getWeather() {
     var lat = (JSON.parse(this.responseText).latitude);
     var lon = (JSON.parse(this.responseText).longitude);

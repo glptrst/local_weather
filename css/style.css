@@ -1,7 +1,5 @@
-prova {
-    margin-top: 300px;
-}
 html {
+    background-color: #025391; 
     text-align: center;
 }
 
@@ -12,6 +10,7 @@ html {
 
 #temperature {
     text-align: right;
+    color: #1AB2EF; 
 }
 
 #location {
@@ -20,7 +19,7 @@ html {
 /*
 http://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting-using-css
       */
-#temp-button{
+#temp_text{
     display: inline;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
